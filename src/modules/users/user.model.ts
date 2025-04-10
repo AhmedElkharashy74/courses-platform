@@ -1,4 +1,5 @@
 import { Schema, model, Document } from "mongoose";
+import { injectable } from "tsyringe";
 
 export interface IUser extends Document {
   _id: string;
@@ -12,10 +13,7 @@ export interface IUser extends Document {
   wishlist: string[];
   socialLinks: { platform: string; url: string }[];
   notifications: { message: string; read: boolean; createdAt: Date }[];
-  settings: {
-    language: string;
-    darkMode: boolean;
-  };
+  
   providers: { provider: "google" | "github" | "facebook"; providerId: string }[];
   createdAt: Date;
   updatedAt: Date;
@@ -23,6 +21,7 @@ export interface IUser extends Document {
   deletedAt?: Date;
 }
 
+// @injectable()
 const UserSchema = new Schema<IUser>(
   {
     _id: { type: String, default: () => crypto.randomUUID() },
@@ -35,10 +34,7 @@ const UserSchema = new Schema<IUser>(
     wishlist: { type: [String], default: [] },
     socialLinks: { type: [{ platform: String, url: String }], default: [] },
     notifications: { type: [{ message: String, read: Boolean, createdAt: { type: Date, default: Date.now } }], default: [] },
-    settings: {
-      language: { type: String, default: "en" },
-      darkMode: { type: Boolean, default: false },
-    },
+    
     providers: {
       type: [{ provider: String, providerId: String }],
       required: true,

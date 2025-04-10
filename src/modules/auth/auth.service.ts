@@ -6,8 +6,6 @@ import { GitHubStrategy } from './strategies/github.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
 import { UserService } from '../users/user.service';
-// import { GoogleStrategy } from './strategies/google.strategy';
-// import { FacebookStrategy } from './strategies/facebook.strategy';
 
 
 dotenv.config();
@@ -94,4 +92,17 @@ export class AuthService {
     console.log(`User with ID ${userId} logged out`);
   }
 
+  async checkUserExists(email: string) {
+    const user = await this.userService.getUserByEmail(email);
+    return !!user;
+  }
+
+  async createUserIfNotExist(userData: any) {
+    const userExists = await this.checkUserExists(userData.email);
+    if (!userExists) {
+      const newUser = await this.userService.createUser(userData);
+      return newUser;
+    }
+    return null;
+  }
 }

@@ -10,4 +10,8 @@ export class Logger {
   error(message: string, ...meta: any[]): void {
     console.error(`[ERROR] ${message}`, ...meta);
   }
+
+  warn(message: string, ...meta: any[]): void {
+    console.warn(`[WARN] ${message}`, ...meta);
+  }
 }

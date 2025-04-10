@@ -65,6 +65,7 @@ export class AuthController {
         const accessToken = await this.authService.generateAccessToken(userData);
         const refreshToken = await this.authService.generateRefreshToken(userData);
         if (userData) {
+          await this.authService.createUserIfNotExist(userData);
           res.status(200).json({
             accessToken,
             refreshToken

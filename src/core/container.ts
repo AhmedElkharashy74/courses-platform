@@ -8,7 +8,9 @@ import { FacebookStrategy } from '../modules/auth/strategies/facebook.strategy';
 import GitHubStrategy from '../modules/auth/strategies/github.strategy';
 import { AuthService } from '../modules/auth/auth.service';
 import { UserRepository } from '../modules/users/user.repository';
-// import { UserService } from '../modules/user/user.service';
+import { UserService } from '../modules/users/user.service';
+import { User } from '../modules/users/user.model';
+import {Logger} from '../core/logger';
 // import { UserController } from '../modules/user/user.controller';
 // import { CourseRepository } from '../modules/course/course.repository';
 // import { CourseService } from '../modules/course/course.service';
@@ -24,6 +26,9 @@ const container: ApplicationContainer = tsyringeContainer;
 // Database connections
 container.registerSingleton('MongoConnection', MongoConnection);
 container.registerSingleton('RedisConnection', RedisConnection);
+
+// Logger
+container.registerSingleton('Logger', Logger);
 
 
 //auth module
@@ -42,9 +47,12 @@ container.register('FacebookStrategy', {
 container.register('UserRepository', {
   useClass: UserRepository
 });
-// container.register('UserService', {
-//   useClass: UserService
-// });
+container.register('UserService', {
+  useClass: UserService
+});
+container.register('UserModel', {
+  useValue: User
+});
 // container.register('UserController', {
 //   useClass: UserController
 // });

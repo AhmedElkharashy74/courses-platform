@@ -4,6 +4,7 @@ import { IUser } from "./user.model";
 import { IUserBasicInfo } from "./dtos/userBasicInfo.dto";
 import { IUserCreationResponse } from "./dtos/createUserRes.dto";
 import { UserRepository } from "./user.repository";
+import { IUserCreationRequest } from "./dtos/createUser.dto";
 
 @injectable()
 export class UserService {
@@ -13,22 +14,22 @@ export class UserService {
 
     // Get user by ID
     async getUserById(id: string): Promise<IUserProfile | null> {
-        return this.userRepository.findById(id);
+        return await this.userRepository.findById(id);
     }
 
     // Get user by email
     async getUserByEmail(email: string): Promise<IUserProfile | null> {
-        return this.userRepository.findByEmail(email);
+        return await this.userRepository.findByEmail(email);
     }
 
     // Create a user
-    async createUser(userData: IUser): Promise<IUserCreationResponse> {
-        return this.userRepository.create(userData);
+    async createUser(userData: IUserCreationRequest): Promise<IUserCreationResponse> {
+        return await this.userRepository.create(userData);
     }
 
     // Update a user
     async updateUser(id: string, updateData: Partial<IUserProfile>): Promise<IUserProfile | null> {
-        return this.userRepository.update(id, updateData);
+        return await this.userRepository.update(id, updateData);
     }
 
     // Delete a user
@@ -38,9 +39,9 @@ export class UserService {
 
     // Flexible find (based on query)
     async findOne(query: object, projection: string = ''): Promise<IUserProfile | null> {
-        return this.userRepository.findOne(query, projection);
+        return await this.userRepository.findOne(query, projection);
     }
     async findOneByProviderId(providerId: string, provider: string): Promise<IUserProfile | null> {
-        return this.userRepository.findOne({ "providers.providerId": providerId, "providers.provider": provider });
+        return await this.userRepository.findOne({ "providers.providerId": providerId, "providers.provider": provider });
     }
 }
